@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - ResearchDoc</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<div class="auth-container">
+
+    <div class="auth-card">
+
+        <h2>Login</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit" class="btn-full">
+                Login
+            </button>
+        </form>
+
+        <p class="auth-link">
+            Don't have an account?
+            <a href="{% url 'register' %}">Register</a>
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>

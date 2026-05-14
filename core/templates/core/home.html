@@ -1,0 +1,131 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResearchDoc</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">ResearchDoc</div>
+
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li><a href="#workspace">Projects</a></li>
+        <li><a href="#summary">Summaries</a></li>
+        <li><a href="#comparison">Comparison</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <a href="{% url 'register' %}">
+        <button class="btn">Get Started</button>
+    </a>
+</nav>
+
+<section class="hero" id="home">
+    <div class="hero-content">
+        <h1>Modern Research Management Platform</h1>
+        <p>
+            Upload papers, generate AI summaries, compare studies,
+            create citations, and organise research in one smart workspace.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="{% url 'register' %}">
+                <button class="primary-btn">Start Free Trial</button>
+            </a>
+
+            <a href="#features">
+                <button class="secondary-btn">Explore Features</button>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="features" id="features">
+    <h2>Key Features</h2>
+    <p class="feature-subtitle">
+        Everything you need to manage research workflows in one place
+    </p>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h3>Upload & Organise</h3>
+            <p>Upload PDFs, manage resources, and store research materials by project.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>AI Summaries</h3>
+            <p>Generate clean academic summaries from uploaded research papers.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>AI Comparisons</h3>
+            <p>Compare two papers and generate similarities, differences, and findings.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Advanced Search</h3>
+            <p>Search by title, author, abstract, tag, and AI-generated summaries.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Tags & Categories</h3>
+            <p>Label resources with tags such as AI, cybersecurity, healthcare, or methods.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Citation Generator</h3>
+            <p>Automatically generate APA and IEEE citations from resource metadata.</p>
+        </div>
+    </div>
+</section>
+
+<section class="preview-section" id="workspace">
+    <h2>Project Workspace</h2>
+    <p>
+        Create projects, upload research papers, generate summaries,
+        add tags, and manage everything in one dashboard.
+    </p>
+
+    <a href="{% url 'dashboard' %}">
+        <button class="btn">Open Dashboard</button>
+    </a>
+</section>
+
+<section class="preview-section alt-bg" id="summary">
+    <h2>AI Summary & Citations</h2>
+    <p>
+        ResearchDoc extracts text from PDFs and generates readable academic summaries,
+        while also creating APA and IEEE citation formats.
+    </p>
+</section>
+
+<section class="preview-section" id="comparison">
+    <h2>AI Paper Comparison</h2>
+    <p>
+        Select two uploaded papers and generate a structured AI comparison covering
+        similarities, differences, methodology, findings, and conclusions.
+    </p>
+</section>
+
+<section class="contact-section" id="contact">
+    <h2>Contact</h2>
+    <p>ResearchDoc AI Platform</p>
+    <p>Email: support@researchdoc.ai</p>
+    <p>Built for modern AI-assisted research workflows.</p>
+</section>
+
+<footer class="footer">
+    <p>© 2026 ResearchDoc | Harshitha Purushotham</p>
+</footer>
+
+</body>
+</html>

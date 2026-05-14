@@ -1,0 +1,189 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ project.title }}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">ResearchDoc</div>
+
+    <ul class="nav-links">
+        <li><a href="/dashboard/">Dashboard</a></li>
+    </ul>
+
+    <a href="{% url 'logout' %}">
+        <button class="btn">Logout</button>
+    </a>
+</nav>
+
+<section class="project-detail-container">
+
+    <div class="project-header">
+        <h1>{{ project.title }}</h1>
+        <p>{{ project.description }}</p>
+        <br>
+
+        <a href="{% url 'export_project_pdf' project.id %}">
+            <button class="btn">
+                Export PDF Report
+            </button>
+        </a>
+    </div>
+    <form method="GET" class="search-form">
+        <input 
+            type="text" 
+            name="q" 
+            placeholder="Search resources..." 
+            value="{{ query }}"
+        >
+
+        <button type="submit" class="btn">
+            Search
+        </button>
+
+        <a href="{% url 'project_detail' project.id %}">
+            Clear
+        </a>
+    </form>
+
+    <div class="workspace-grid">
+
+        <div class="workspace-card">
+            <h2>Resources</h2>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <button type="submit" class="btn-full">
+                    Upload Resource
+                </button>
+            </form>
+
+            <hr>
+
+            <h3>Uploaded Resources</h3>
+
+            {% for resource in resources %}
+                <div class="resource-item">
+                    <strong>{{ resource.title }}</strong>
+                    <p>{{ resource.resource_type }}</p>
+                    <div class="tag-list">
+                        {% for resource_tag in resource.resourcetag_set.all %}
+                            <span class="tag-badge">
+                                {{ resource_tag.tag.name }}
+                            </span>
+                        {% empty %}
+                            <small>No tags</small>
+
+                        {% endfor %}
+
+                    </div>
+
+                    {% if resource.file %}
+
+                        <div class="resource-actions">
+
+                            <a href="{{ resource.file.url }}"
+                                target="_blank"
+                                class="action-btn view-btn">
+                                    View File
+                            </a>
+
+                            <a href="{% url 'generate_resource_summary' resource.id %}"
+                                class="action-btn summary-btn">
+                                    Generate AI Summary
+                            </a>
+
+                            <a href="{% url 'delete_resource' resource.id %}"
+                                class="action-btn delete-btn">
+                                    Delete Resource
+                            </a>
+
+                        </div>
+
+                        <br>
+
+                        <div class="citation-box">
+
+                            <strong>APA Citation</strong>
+
+                            <p>{{ resource.citations.apa }}</p>
+
+                            <strong>IEEE Citation</strong>
+
+                            <p>{{ resource.citations.ieee }}</p>
+
+                        </div>
+
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p>No resources uploaded yet.</p>
+            {% endfor %}
+        </div>
+
+        <div class="workspace-card">
+            <h2>AI Summaries</h2>
+
+            {% for resource in resources %}
+                {% for summary in resource.summaries.all %}
+                    <div class="summary-box">
+                        <h4>{{ resource.title }}</h4>
+                        <p>{{ summary.summary_text }}</p>
+                        <br>
+                        <a href="{% url 'delete_summary' summary.id %}">
+                            Delete Summary
+                        </a>
+                    </div>
+                {% endfor %}
+            {% empty %}
+                <p>No summaries generated yet.</p>
+            {% endfor %}
+        </div>
+
+        <div class="workspace-card">
+            <h2>Comparisons</h2>
+            <form method="POST">
+                {% csrf_token %}
+                {{ comparison_form.as_p }}
+                <button type="submit" name="compare_submit" class="btn-full">
+                    Compare Papers
+                </button>
+
+            </form>
+            <br>
+            <h3>Add Tag</h3>
+            <form method="POST">
+                {% csrf_token %}
+
+                {{ tag_form.as_p }}
+
+                <button type="submit" name="tag_submit" class="btn-full">
+                    Add Tag
+                </button>
+            </form>
+            <hr>
+            <h3>Generated Comparisons</h3>
+            {% for comparison in comparisons %}
+            <div class="summary-box">
+                <h4>{{ comparison.title }}</h4>
+                <p>{{ comparison.description }}</p>
+            </div>
+            {% empty %}
+            <p>No comparisons generated yet.</p>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+</html>

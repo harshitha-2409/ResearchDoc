@@ -1,0 +1,134 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - ResearchDoc</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">ResearchDoc</div>
+
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+    </ul>
+
+    <a href="{% url 'logout' %}">
+        <button class="btn">Logout</button>
+    </a>
+</nav>
+
+<section class="dashboard-hero">
+    <h1>Welcome back, {{ request.user.username }}</h1>
+    <p>Manage your research projects, papers, summaries, citations, and AI comparisons.</p>
+</section>
+
+<section class="dashboard-container">
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>{{ total_projects }}</h3>
+            <p>Projects</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>{{ total_resources }}</h3>
+            <p>Resources</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>{{ total_summaries }}</h3>
+            <p>AI Summaries</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>{{ total_comparisons }}</h3>
+            <p>Comparisons</p>
+        </div>
+    </div>
+
+    <div class="dashboard-layout">
+
+        <div class="project-form-card">
+            <h2>Create New Project</h2>
+            <p class="muted-text">
+                Start a new research workspace for papers, summaries, comparisons, and citations.
+            </p>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <p>
+                    {{ form.title.label_tag }}
+                    {{ form.title }}
+                </p>
+
+                <p>
+                    {{ form.description.label_tag }}
+                    {{ form.description }}
+                </p>
+
+                <button type="submit" class="btn-full">
+                    Create Project
+                </button>
+            </form>
+        </div>
+
+        <div class="projects-section">
+            <div class="section-heading-row">
+                <div>
+                    <h2>Your Projects</h2>
+                    <p class="muted-text">Open a project to upload PDFs and use AI tools.</p>
+                </div>
+            </div>
+
+            <div class="project-grid">
+
+                {% for project in projects %}
+
+                    <div class="project-card modern-project-card">
+
+                        <div class="project-icon">📁</div>
+
+                        <h3>
+                            <a href="{% url 'project_detail' project.id %}">
+                                {{ project.title }}
+                            </a>
+                        </h3>
+
+                        <p>{{ project.description|default:"No description added yet." }}</p>
+
+                        <div class="project-meta">
+                            Created: {{ project.created_at|date:"d M Y" }}
+                        </div>
+
+                        <a href="{% url 'project_detail' project.id %}">
+                            <button class="open-project-btn">
+                                Open Workspace
+                            </button>
+                        </a>
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="empty-state">
+                        <h3>No projects yet</h3>
+                        <p>Create your first research project using the form on the left.</p>
+                    </div>
+
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+</html>

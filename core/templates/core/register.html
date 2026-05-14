@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register - ResearchDoc</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<div class="auth-container">
+    <div class="auth-card">
+
+        <h2>Create Account</h2>
+
+        <form method="POST" action="{% url 'register' %}">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <p>
+                    {{ field.label_tag }}
+                    {{ field }}
+
+                    {% for error in field.errors %}
+                        <span style="color:red; font-size:14px;">{{ error }}</span>
+                    {% endfor %}
+                </p>
+            {% endfor %}
+
+            <button type="submit" class="btn-full">Register</button>
+        </form>
+
+        <p class="auth-link">
+            Already have an account?
+            <a href="{% url 'login' %}">Login</a>
+        </p>
+
+    </div>
+</div>
+
+</body>
+</html>
