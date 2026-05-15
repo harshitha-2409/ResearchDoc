@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Comparison - ResearchDoc</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">ResearchDoc</div>
+    <ul class="nav-links">
+        <li><a href="{% url 'project_detail' comparison.project.id %}">Back to Project</a></li>
+    </ul>
+</nav>
+
+<section class="dashboard-container">
+    <div class="project-form-card">
+
+        <h2>Delete Comparison</h2>
+
+        <p>
+            Are you sure you want to delete
+            <strong>{{ comparison.title }}</strong>?
+        </p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <button type="submit" class="delete-confirm-btn">
+                Yes, Delete Comparison
+            </button>
+        </form>
+
+    </div>
+</section>
+
+</body>
+</html>

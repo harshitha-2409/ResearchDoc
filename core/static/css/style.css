@@ -946,3 +946,88 @@ html{
 .action-btn{
     text-align:center;
 }
+
+.project-card-actions{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:18px;
+}
+
+.project-card-actions a{
+    flex:1;
+}
+
+.edit-project-btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#ece8ff;
+    color:#6c4df6;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.edit-project-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 15px rgba(108,77,246,0.15);
+}
+
+
+.delete-project-btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#ffe4e4;
+    color:#d11a2a;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.delete-project-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 15px rgba(209,26,42,0.15);
+}
+
+.comparison-table-card{
+    background:white;
+    padding:24px;
+    border-radius:18px;
+    margin-bottom:24px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.06);
+}
+
+.comparison-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:18px;
+    margin-bottom:20px;
+}
+
+.comparison-table th{
+    background:#6c4df6;
+    color:white;
+    padding:14px;
+    text-align:left;
+}
+
+.comparison-table td{
+    border:1px solid #e5e7eb;
+    padding:14px;
+    vertical-align:top;
+}
+
+.comparison-table tr:nth-child(even){
+    background:#f9fafb;
+}
+
+.archived-section{
+    margin-top:50px;
+}
+
+.archived-card{
+    opacity:0.9;
+    border:1px dashed #c8bcff;
+}

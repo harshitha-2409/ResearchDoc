@@ -106,11 +106,26 @@
                             Created: {{ project.created_at|date:"d M Y" }}
                         </div>
 
-                        <a href="{% url 'project_detail' project.id %}">
-                            <button class="open-project-btn">
-                                Open Workspace
-                            </button>
-                        </a>
+                        <div class="project-card-actions">
+
+                            <a href="{% url 'project_detail' project.id %}">
+                                <button class="open-project-btn">
+                                    Open Workspace
+                                </button>
+                            </a>
+
+                            <a href="{% url 'edit_project' project.id %}">
+                                <button class="edit-project-btn">
+                                    Edit Project
+                                </button>
+                            </a>
+                            <a href="{% url 'delete_project' project.id %}">
+                                <button class="delete-project-btn">
+                                    Archive Project
+                                </button>
+                            </a>
+
+                        </div>
 
                     </div>
 
@@ -124,6 +139,51 @@
                 {% endfor %}
 
             </div>
+        </div>
+
+    </div>
+    <div class="projects-section archived-section">
+
+        <div class="section-heading-row">
+            <div>
+                <h2>Archived Projects</h2>
+                <p class="muted-text">Restore archived projects back to your dashboard.</p>
+            </div>
+        </div>
+
+        <div class="project-grid">
+
+        {% for project in archived_projects %}
+
+            <div class="project-card modern-project-card archived-card">
+
+                <div class="project-icon">🗂️</div>
+
+                <h3>{{ project.title }}</h3>
+
+                <p>{{ project.description|default:"No description added yet." }}</p>
+
+                <div class="project-meta">
+                    Archived project
+                </div>
+
+                <a href="{% url 'restore_project' project.id %}">
+                    <button class="edit-project-btn">
+                        Restore Project
+                    </button>
+                </a>
+
+            </div>
+
+        {% empty %}
+
+            <div class="empty-state">
+                <h3>No archived projects</h3>
+                <p>Archived projects will appear here.</p>
+            </div>
+
+        {% endfor %}
+
         </div>
 
     </div>

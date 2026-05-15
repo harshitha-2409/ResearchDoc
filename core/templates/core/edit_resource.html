@@ -1,0 +1,55 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Resource - ResearchDoc</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">ResearchDoc</div>
+
+    <ul class="nav-links">
+        <li>
+            <a href="{% url 'project_detail' resource.project.id %}">
+                Back to Project
+            </a>
+        </li>
+    </ul>
+
+    <a href="{% url 'logout' %}">
+        <button class="btn">Logout</button>
+    </a>
+</nav>
+
+<section class="dashboard-container">
+
+    <div class="project-form-card">
+
+        <h2>Edit Resource</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit" class="btn-full">
+                Save Changes
+            </button>
+        </form>
+
+        <br>
+
+        <a href="{% url 'project_detail' resource.project.id %}">
+            Cancel and go back
+        </a>
+
+    </div>
+
+</section>
+
+</body>
+</html>

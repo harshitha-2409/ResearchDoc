@@ -100,6 +100,11 @@
                                     Generate AI Summary
                             </a>
 
+                            <a href="{% url 'edit_resource' resource.id %}"
+                                class="action-btn view-btn">
+                                    Edit Resource
+                            </a>
+
                             <a href="{% url 'delete_resource' resource.id %}"
                                 class="action-btn delete-btn">
                                     Delete Resource
@@ -134,12 +139,27 @@
             {% for resource in resources %}
                 {% for summary in resource.summaries.all %}
                     <div class="summary-box">
+
                         <h4>{{ resource.title }}</h4>
+
                         <p>{{ summary.summary_text }}</p>
+
                         <br>
-                        <a href="{% url 'delete_summary' summary.id %}">
-                            Delete Summary
-                        </a>
+
+                        <div class="resource-actions">
+
+                            <a href="{% url 'edit_summary' summary.id %}"
+                            class="action-btn view-btn">
+                                Edit Summary
+                            </a>
+
+                            <a href="{% url 'delete_summary' summary.id %}"
+                            class="action-btn delete-btn">
+                                Delete Summary
+                            </a>
+
+                        </div>
+
                     </div>
                 {% endfor %}
             {% empty %}
@@ -171,10 +191,57 @@
             <hr>
             <h3>Generated Comparisons</h3>
             {% for comparison in comparisons %}
-            <div class="summary-box">
-                <h4>{{ comparison.title }}</h4>
-                <p>{{ comparison.description }}</p>
+
+            <div class="comparison-table-card">
+
+                <h3>{{ comparison.title }}</h3>
+
+                <table class="comparison-table">
+
+                    <tr>
+                        <th>Comparison Area</th>
+                        <th>Analysis</th>
+                    </tr>
+
+                    <tr>
+                        <td>Research Comparison</td>
+                        <td>{{ comparison.description }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Strengths</td>
+                        <td>
+                            AI-generated comparison highlights important similarities
+                            and differences between selected papers.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Research Value</td>
+                        <td>
+                            Helps identify methodologies, findings,
+                            and limitations across studies.
+                        </td>
+                    </tr>
+
+                </table>
+
+                <div class="resource-actions">
+
+                    <a href="{% url 'edit_comparison' comparison.id %}"
+                    class="action-btn view-btn">
+                        Edit Comparison
+                    </a>
+
+                    <a href="{% url 'delete_comparison' comparison.id %}"
+                    class="action-btn delete-btn">
+                        Delete Comparison
+                    </a>
+
+                </div>
+
             </div>
+
             {% empty %}
             <p>No comparisons generated yet.</p>
             {% endfor %}

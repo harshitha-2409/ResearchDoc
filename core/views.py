@@ -36,7 +36,11 @@ def register_view(request):
 
 @login_required
 def dashboard(request):
-    projects = Project.objects.filter(user=request.user)
+    projects = Project.objects.filter(user=request.user, is_archived=False)
+    archived_projects = Project.objects.filter(
+    user=request.user,
+    is_archived=True
+    )
 
     if request.method == 'POST':
         form = ProjectForm(request.POST)
@@ -70,7 +74,8 @@ def dashboard(request):
         'total_projects': total_projects,
         'total_resources': total_resources,
         'total_summaries': total_summaries,
-        'total_comparisons': total_comparisons
+        'total_comparisons': total_comparisons,
+        'archived_projects': archived_projects,
     })
 
 
@@ -209,6 +214,46 @@ def generate_resource_summary(request, resource_id):
         project_id=resource.project.id
     )
 
+@login_required
+def edit_project(request, project_id):
+
+    project = Project.objects.get(
+        id=project_id,
+        user=request.user
+    )
+
+    if request.method == 'POST':
+        form = ProjectForm(request.POST, instance=project)
+
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+
+    else:
+        form = ProjectForm(instance=project)
+
+    return render(request, 'core/edit_project.html', {
+        'form': form,
+        'project': project
+    })
+
+@login_required
+def delete_project(request, project_id):
+
+    project = Project.objects.get(
+        id=project_id,
+        user=request.user
+    )
+
+    if request.method == 'POST':
+        project.is_archived = True
+        project.save()
+        return redirect('dashboard')
+
+    return render(request, 'core/delete_project.html', {
+        'project': project
+    })
+
 
 @login_required
 def delete_summary(request, summary_id):
@@ -226,6 +271,66 @@ def delete_summary(request, summary_id):
         project_id=project_id
     )
 
+@login_required
+def edit_summary(request, summary_id):
+
+    summary = Summary.objects.get(
+        id=summary_id,
+        resource__project__user=request.user
+    )
+
+    if request.method == 'POST':
+        summary.summary_text = request.POST.get('summary_text')
+        summary.citation_text = request.POST.get('citation_text')
+        summary.key_findings = request.POST.get('key_findings')
+        summary.save()
+
+        return redirect('project_detail', project_id=summary.resource.project.id)
+
+    return render(request, 'core/edit_summary.html', {
+        'summary': summary
+    })
+
+
+@login_required
+def edit_resource(request, resource_id):
+
+    resource = Resource.objects.get(
+        id=resource_id,
+        project__user=request.user
+    )
+
+    if request.method == 'POST':
+        form = ResourceForm(
+            request.POST,
+            request.FILES,
+            instance=resource
+        )
+
+        if form.is_valid():
+            form.save()
+            return redirect('project_detail', project_id=resource.project.id)
+
+    else:
+        form = ResourceForm(instance=resource)
+
+    return render(request, 'core/edit_resource.html', {
+        'form': form,
+        'resource': resource
+    })
+
+@login_required
+def restore_project(request, project_id):
+
+    project = Project.objects.get(
+        id=project_id,
+        user=request.user
+    )
+
+    project.is_archived = False
+    project.save()
+
+    return redirect('dashboard')
 
 @login_required
 def delete_resource(request, resource_id):
@@ -246,6 +351,44 @@ def delete_resource(request, resource_id):
         'project_detail',
         project_id=project_id
     )
+
+@login_required
+def edit_comparison(request, comparison_id):
+
+    comparison = Comparison.objects.get(
+        id=comparison_id,
+        project__user=request.user
+    )
+
+    if request.method == 'POST':
+        comparison.title = request.POST.get('title')
+        comparison.description = request.POST.get('description')
+        comparison.save()
+
+        return redirect('project_detail', project_id=comparison.project.id)
+
+    return render(request, 'core/edit_comparison.html', {
+        'comparison': comparison
+    })
+
+
+@login_required
+def delete_comparison(request, comparison_id):
+
+    comparison = Comparison.objects.get(
+        id=comparison_id,
+        project__user=request.user
+    )
+
+    project_id = comparison.project.id
+
+    if request.method == 'POST':
+        comparison.delete()
+        return redirect('project_detail', project_id=project_id)
+
+    return render(request, 'core/delete_comparison.html', {
+        'comparison': comparison
+    })
 
 
 def generate_summary(resource):

@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Summary - ResearchDoc</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">ResearchDoc</div>
+
+    <ul class="nav-links">
+        <li>
+            <a href="{% url 'project_detail' summary.resource.project.id %}">
+                Back to Project
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<section class="dashboard-container">
+
+    <div class="project-form-card">
+
+        <h2>Edit AI Summary</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <p>
+                <label>Summary Text</label>
+                <textarea name="summary_text" rows="12">{{ summary.summary_text }}</textarea>
+            </p>
+
+            <p>
+                <label>Citation Text</label>
+                <textarea name="citation_text" rows="4">{{ summary.citation_text }}</textarea>
+            </p>
+
+            <p>
+                <label>Key Findings</label>
+                <textarea name="key_findings" rows="6">{{ summary.key_findings }}</textarea>
+            </p>
+
+            <button type="submit" class="btn-full">
+                Save Changes
+            </button>
+        </form>
+
+    </div>
+
+</section>
+
+</body>
+</html>

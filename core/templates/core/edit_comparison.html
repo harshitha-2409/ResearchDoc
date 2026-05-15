@@ -1,0 +1,46 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Comparison - ResearchDoc</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">ResearchDoc</div>
+    <ul class="nav-links">
+        <li><a href="{% url 'project_detail' comparison.project.id %}">Back to Project</a></li>
+    </ul>
+</nav>
+
+<section class="dashboard-container">
+    <div class="project-form-card">
+
+        <h2>Edit Comparison</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <p>
+                <label>Title</label>
+                <input type="text" name="title" value="{{ comparison.title }}">
+            </p>
+
+            <p>
+                <label>Description</label>
+                <textarea name="description" rows="12">{{ comparison.description }}</textarea>
+            </p>
+
+            <button type="submit" class="btn-full">
+                Save Changes
+            </button>
+        </form>
+
+    </div>
+</section>
+
+</body>
+</html>
