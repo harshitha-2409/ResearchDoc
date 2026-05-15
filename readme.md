@@ -16,6 +16,13 @@ GitHub Repository:
 
 ---
 
+# Demo Login Details
+
+Demo User Account
+
+Username: demo_user  
+Password: ResearchDoc@2026
+
 # Features
 
 ## User Authentication
